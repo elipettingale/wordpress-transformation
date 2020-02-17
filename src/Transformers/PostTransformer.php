@@ -13,8 +13,12 @@ class PostTransformer extends Transformer
         parent::__construct($item);
 
         if (function_exists('get_fields')) {
-            foreach(get_fields($item->ID) as $attribute => $value) {
-                $this->acf_fields[] = $attribute;
+            $fields = get_fields($item->ID);
+
+            if ($fields) {
+                foreach($fields as $attribute => $value) {
+                    $this->acf_fields[] = $attribute;
+                }
             }
         }
     }
