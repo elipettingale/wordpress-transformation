@@ -3,7 +3,17 @@
 namespace EliPett\Transformation\Transformers;
 
 use EliPett\Transformation\Transformers\Transformer;
+use WP_Post;
 
+/**
+ * Class PostTransformer
+ * @package EliPett\Transformation\Transformers
+ *
+ * @property WP_Post $item
+ * @property array $includes
+ * @property array $excludes
+ * @property array $rename
+ */
 class PostTransformer extends Transformer
 {
     protected $acf_fields = [];
