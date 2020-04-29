@@ -62,16 +62,50 @@ class PostTransformer extends Transformer
         $method = 'get' . lower_camel_case($attribute) . 'Attribute';
 
         if (method_exists($this, $method)) {
-            return $this->$method();
+            return $this->castValue($attribute, $this->$method());
         }
 
         if (function_exists('get_field')) {
             if ($value = get_field($attribute, $this->item->ID)) {
+                return $this->castValue($attribute, $value);
+            }
+        }
+
+        return $this->castValue($attribute, $this->item->$attribute);
+    }
+
+    protected function castDateValue($attribute, $value)
+    {
+        if (!isset($this->date_format[$attribute])) {
+            return $value;
+        }
+
+        if ($value instanceof \DateTime) {
+            return $value->format($this->date_format[$attribute]);
+        }
+
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        if (in_array($attribute, $this->acf_fields)) {
+            $field_object = get_field_object($attribute, $this->item->ID);
+            $return_format = $field_object['return_format'];
+
+            try {
+                $value = \DateTime::createFromFormat($return_format, $value);
+                return $value->format($this->date_format[$attribute]);
+            } catch (\Exception $exception) {
                 return $value;
             }
         }
 
-        return $this->item->$attribute;
+        try {
+            $value = new \DateTime($value);
+            return $value->format($this->date_format[$attribute]);
+        } catch (\Exception $exception) {
+            return $value;
+        }
     }
 
     public function getPermalinkAttribute()
