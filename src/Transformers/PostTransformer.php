@@ -86,18 +86,6 @@ class PostTransformer extends Transformer
             return $value;
         }
 
-        if (in_array($attribute, $this->acf_fields)) {
-            $field_object = get_field_object($attribute, $this->item->ID);
-            $return_format = $field_object['return_format'];
-
-            try {
-                $value = \DateTime::createFromFormat($return_format, $value);
-                return $value->format($this->date_format[$attribute]);
-            } catch (\Exception $exception) {
-                return $value;
-            }
-        }
-
         try {
             $value = new \DateTime($value);
             return $value->format($this->date_format[$attribute]);
