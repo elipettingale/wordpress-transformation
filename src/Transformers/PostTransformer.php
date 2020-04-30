@@ -66,10 +66,10 @@ class PostTransformer extends Transformer
         }
 
         if ($value = get_field($attribute, $this->item->ID)) {
-            return $value;
+            return $this->castValue($attribute, $value);
         }
 
-        return $this->item->$attribute;
+        return $this->castValue($attribute, $this->item->$attribute);
     }
 
     public function getPermalinkAttribute()
