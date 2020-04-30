@@ -23,7 +23,11 @@ class PostTransformer extends Transformer
         parent::__construct($item);
 
         if (function_exists('get_fields')) {
-            $this->acf_fields = get_fields($item->ID);
+            $fields = get_fields($item->ID);
+
+            if ($fields) {
+                $this->acf_fields = $fields;
+            }
         }
     }
 
