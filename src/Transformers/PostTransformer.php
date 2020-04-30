@@ -72,28 +72,6 @@ class PostTransformer extends Transformer
         return $this->item->$attribute;
     }
 
-    protected function castDateValue($attribute, $value)
-    {
-        if (!isset($this->date_format[$attribute])) {
-            return $value;
-        }
-
-        if ($value instanceof \DateTime) {
-            return $value->format($this->date_format[$attribute]);
-        }
-
-        if (!is_string($value)) {
-            return $value;
-        }
-
-        try {
-            $value = new \DateTime($value);
-            return $value->format($this->date_format[$attribute]);
-        } catch (\Exception $exception) {
-            return $value;
-        }
-    }
-
     public function getPermalinkAttribute()
     {
         return get_permalink($this->item->ID);
