@@ -59,19 +59,17 @@ class PostTransformer extends Transformer
 
     protected function getValue($attribute)
     {
-        $method = 'get' . lower_camel_case($attribute) . 'Attribute';
+        $method = 'get' . upper_camel_case($attribute) . 'Attribute';
 
         if (method_exists($this, $method)) {
             return $this->castValue($attribute, $this->$method());
         }
 
-        if (function_exists('get_field')) {
-            if ($value = get_field($attribute, $this->item->ID)) {
-                return $this->castValue($attribute, $value);
-            }
+        if ($value = get_field($attribute, $this->item->ID)) {
+            return $value;
         }
 
-        return $this->castValue($attribute, $this->item->$attribute);
+        return $this->item->$attribute;
     }
 
     protected function castDateValue($attribute, $value)
