@@ -23,13 +23,7 @@ class PostTransformer extends Transformer
         parent::__construct($item);
 
         if (function_exists('get_fields')) {
-            $fields = get_fields($item->ID);
-
-            if ($fields) {
-                foreach($fields as $attribute => $value) {
-                    $this->acf_fields[] = $attribute;
-                }
-            }
+            $this->acf_fields = get_fields($item->ID);
         }
     }
 
@@ -43,7 +37,7 @@ class PostTransformer extends Transformer
             'post_content'
         ];
 
-        foreach($this->acf_fields as $attribute) {
+        foreach($this->acf_fields as $attribute => $value) {
             $attributes[] = $attribute;
         }
 
@@ -65,8 +59,8 @@ class PostTransformer extends Transformer
             return $this->castValue($attribute, $this->$method());
         }
 
-        if ($value = get_field($attribute, $this->item->ID)) {
-            return $this->castValue($attribute, $value);
+        if (in_array($attribute, $this->acf_fields)) {
+            return $this->castValue($attribute, $this->acf_fields[$attribute]);
         }
 
         return $this->castValue($attribute, $this->item->$attribute);
