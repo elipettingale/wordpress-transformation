@@ -63,7 +63,7 @@ class PostTransformer extends Transformer
             return $this->castValue($attribute, $this->$method());
         }
 
-        if (in_array($attribute, $this->acf_fields)) {
+        if (array_key_exists($attribute, $this->acf_fields)) {
             return $this->castValue($attribute, $this->acf_fields[$attribute]);
         }
 
