@@ -3,7 +3,6 @@
   "description": "A package to easily transform data by creating transformer classes (wordpress version)",
   "type": "library",
   "require": {
-    "php": "^7.0",
     "elipettingale/case-converter": "1.4.*",
     "elipettingale/transformation": "1.1.*"
   },
