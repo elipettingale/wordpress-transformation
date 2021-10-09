@@ -74,4 +74,9 @@ class PostTransformer extends Transformer
     {
         return get_permalink($this->item->ID);
     }
+
+    public function getPostContentAttribute()
+    {
+        return apply_filters('the_content', $this->item->post_content);
+    }
 }
